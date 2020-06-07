@@ -1,8 +1,8 @@
-import express from 'express';
-import helmet from 'helmet';
-import cors from 'cors';
-import routes from './routes';
-import 'dotenv/config';
+import express from "express";
+import helmet from "helmet";
+import cors from "cors";
+import routes from "./routes";
+import "dotenv/config";
 
 const app = express();
 
@@ -11,6 +11,6 @@ app.use(express.json());
 app.use(routes);
 app.use(helmet());
 
-app.listen(process.env.PORT || 8080, () => {
-  console.log(`Server running in port ${process.env.PORT || 8080}`);
+app.listen(process.env.PORT || 3000, () => {
+  console.log(`Server running in port ${process.env.PORT || 3000}`);
 });
