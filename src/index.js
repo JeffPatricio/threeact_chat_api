@@ -4,7 +4,6 @@ import cors from 'cors';
 import 'dotenv/config';
 import routes from './routes';
 
-
 const app = express();
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
@@ -14,5 +13,5 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(routes);
 app.use(helmet());
-app.listen(process.env.PORT || 3001, () => console.log(`Server running in port ${process.env.PORT || 3001}`));
+app.listen(process.env.PORT, () => console.log(`Server running in port ${process.env.PORT}`));
 
