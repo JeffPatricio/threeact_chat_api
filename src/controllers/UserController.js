@@ -21,12 +21,11 @@ export default {
         : res.json({ success: true, message: 'Ocorreu um erro ao criar o usuário' });
     })
   },
-  index: async (req, res) => {
+  index: async () => {
     try {
-      const users = await database('users').select(['*']);
-      return res.json({ success: true, users });
+      return await database('users').select(['*']);
     } catch (err) {
-      return res.json({ success: false, message: err.toString() });
+      return [];
     }
   }
 }
