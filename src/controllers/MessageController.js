@@ -1,20 +1,27 @@
 import 'dotenv/config';
 import database from '../database/connection';
+import UserController from './UserController';
 
 export default {
   create: ({ id_sender, id_receiver, text }) => {
     return new Promise(async (res) => {
       const session = id_receiver === 0 ? 0 : id_receiver < id_sender ? parseInt(`${id_receiver}${id_sender}`) : parseInt(`${id_sender}${id_receiver}`);
-      const newMessage = { id_sender, id_receiver, text, read: false, send_date: Date.now(), session }
+      const newMessage = { id_sender, id_receiver, text, read: false, send_date: Date.now(), session };
       const [id] = await database('messages').insert(newMessage);
-      id ? res({ ...newMessage, id }) : res(null);
+      const [user] = await UserController.read(id_sender);
+      id ? res({ ...newMessage, id, name: user.name }) : res(null);
     })
   },
-  index: async (sessionId) => {
+  index: async (req, res) => {
     try {
-      return await database('messages').where('session', sessionId).select(['*']);
+      const messages = await database('messages')
+        .where('session', req.params.sessionId)
+        .orderBy('send_date', 'asc')
+        .leftJoin('users', 'users.id', 'messages.id_sender')
+        .select(['messages.*', 'users.name']);
+      res.json({ success: true, messages });
     } catch (err) {
       return [];
     }
-  }
+  },
 }

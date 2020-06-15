@@ -21,11 +21,32 @@ export default {
         : res.json({ success: true, message: 'Ocorreu um erro ao criar o usuário' });
     })
   },
-  index: async () => {
+  index: async (id) => {
     try {
-      return await database('users').select(['*']);
+      return await database('users').whereNot({ id }).select(['*']);
     } catch (err) {
       return [];
     }
-  }
+  },
+  read: async (id) => {
+    try {
+      return await database('users').where('id', id).select(['*']);
+    } catch (err) {
+      return [];
+    }
+  },
+  setOnline: async (id) => {
+    try {
+      await database('users').where('id', id).update({ online: true });
+    } catch (err) {
+      console.log(err)
+    }
+  },
+  setOffline: async (id) => {
+    try {
+      await database('users').where('id', id).update({ online: false });
+    } catch (err) {
+      console.log(err)
+    }
+  },
 }

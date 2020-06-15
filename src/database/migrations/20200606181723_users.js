@@ -3,6 +3,7 @@ exports.up = (knex) => {
     table.increments();
     table.string("name").notNullable();
     table.string("photo");
+    table.boolean("online");
   });
 };
 
