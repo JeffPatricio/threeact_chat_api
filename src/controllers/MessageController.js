@@ -24,4 +24,18 @@ export default {
       return [];
     }
   },
+  countNotRead: async (id_sender, id_receiver) => {
+    try {
+      return await database('messages').where({ id_sender, id_receiver, read: false }).count();
+    } catch (err) {
+      return [];
+    }
+  },
+  markRead: async (id_sender, id_receiver) => {
+    try {
+      return await database('messages').where({ id_sender, id_receiver, read: false }).update({ read: true });
+    } catch (err) {
+      return [];
+    }
+  }
 }

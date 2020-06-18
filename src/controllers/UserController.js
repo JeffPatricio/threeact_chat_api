@@ -21,9 +21,9 @@ export default {
         : res.json({ success: true, message: 'Ocorreu um erro ao criar o usuário' });
     })
   },
-  index: async (id) => {
+  index: async () => {
     try {
-      return await database('users').whereNot({ id }).select(['*']);
+      return await database('users').select(['*']);
     } catch (err) {
       return [];
     }
