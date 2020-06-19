@@ -13,8 +13,8 @@ io.on('connection', async (socket) => {
 
   await UserController.setOnline(id_user);
 
-  const listUsers = await UserController.index(id_user);
-  const usersFiltered = listUsers.filter(user => `${user.id}` !== `${id_user}`);
+  const usersDb = await UserController.index(id_user);
+  const usersFiltered = usersDb.filter(user => `${user.id}` !== `${id_user}`);
 
   for (let i = 0; i < usersFiltered.length; i++) {
     const count = await MessageController.countNotRead(usersFiltered[i].id, id_user);
@@ -22,7 +22,6 @@ io.on('connection', async (socket) => {
   }
 
   socket.emit('listUsers', usersFiltered);
-  const userLogged = await UserController.read(id_user);
   socket.to('general').emit('logonUser', id_user);
 
   socket.on('sendMessage', async (data) => {

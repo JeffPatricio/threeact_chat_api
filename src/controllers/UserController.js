@@ -23,7 +23,7 @@ export default {
   },
   index: async () => {
     try {
-      return await database('users').select(['*']);
+      return await database('users').select(['*']).orderBy('name', 'asc');
     } catch (err) {
       return [];
     }
@@ -31,6 +31,16 @@ export default {
   read: async (id) => {
     try {
       return await database('users').where('id', id).select(['*']);
+    } catch (err) {
+      return [];
+    }
+  },
+  readEndpoint: async (req, res) => {
+    try {
+      const { id } = req.params;
+      if (!id) return res.json({});
+      const user = await database('users').where('id', id).first().select(['*']);
+      return res.json({ user });
     } catch (err) {
       return [];
     }
