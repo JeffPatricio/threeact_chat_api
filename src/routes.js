@@ -6,6 +6,7 @@ const routes = express.Router();
 
 routes.use('/images', express.static(path.resolve(__dirname, '..', 'uploads')));
 routes.post('/users', UserController.create);
+routes.get('/', (req, res) => res.send('OK'));
 routes.get('/users/:id', UserController.readEndpoint);
 routes.get('/messages/:sessionId', MessageController.index);
 
